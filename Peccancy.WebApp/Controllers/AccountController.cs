@@ -85,7 +85,7 @@ namespace Peccancy.WebApp.Controllers
             if(user.Role == (int)RoleType.System)
             {
                 Admin admin = await userManager.GetAdminByNameAsync(user.Name);
-                if (admin == null || admin.Password != GetMD5(user.Password))
+                if (admin == null || admin.Password != EncryptionHelper.GetMD5(user.Password))
                 {
                     result.IsSuccess = false;
                     result.Message = "用户名或密码错误！";
@@ -97,7 +97,7 @@ namespace Peccancy.WebApp.Controllers
             else
             {
                 User customer = await userManager.GetUserByCardAsync(user.Name);
-                if (customer == null || customer.Password != GetMD5(user.Password))
+                if (customer == null || customer.Password != EncryptionHelper.GetMD5(user.Password))
                 {
                     result.IsSuccess = false;
                     result.Message = "身份证号或密码错误！";
@@ -135,26 +135,6 @@ namespace Peccancy.WebApp.Controllers
         {
             User user = await userManager.GetUserByCardAsync(Name);
             return user == null;
-        }
-
-        /// <summary>
-        /// MD5加密
-        /// </summary>
-        /// <param name="myString"></param>
-        /// <returns></returns>
-        public static string GetMD5(string myString)
-        {
-            string pwd = "";
-            MD5 md5 = MD5.Create(); //实例化一个md5对像
-                                    // 加密后是一个字节类型的数组，这里要注意编码UTF8/Unicode等的选择　
-            byte[] s = md5.ComputeHash(Encoding.UTF8.GetBytes(myString));
-            // 通过使用循环，将字节类型的数组转换为字符串，此字符串是常规字符格式化所得
-            for (int i = 0; i < s.Length; i++)
-            {
-                // 将得到的字符串使用十六进制类型格式。格式后的字符是小写的字母，如果使用大写（X）则格式后的字符是大写字符 
-                pwd = pwd + s[i].ToString("X").PadLeft(2, '0');
-            }
-            return pwd;
         }
     }
 }
