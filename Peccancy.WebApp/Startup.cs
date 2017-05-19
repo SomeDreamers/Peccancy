@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using MySQL.Data.EntityFrameworkCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Peccancy.WebApp.Interfaces;
+using Peccancy.WebApp.Managers;
 
 namespace Peccancy.WebApp
 {
@@ -34,7 +36,7 @@ namespace Peccancy.WebApp
             // Add framework services.
             services.AddMvc();
             //注入Manager服务
-            //services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<IUserManager, UserManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
