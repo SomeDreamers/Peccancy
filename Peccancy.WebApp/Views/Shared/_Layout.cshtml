@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
+    @RenderSection("styles", required: false)
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -34,6 +35,10 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    @if(Html.ViewContext.HttpContext.User.Identity.Role() == RoleType.System.GetDescription()){
+                        <li><a asp-area="" asp-controller="ManagerUser" asp-action="Create">登记用户</a></li>
+                    }
+                    
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li><a asp-area="" asp-controller="Illegal" asp-action="IllegalList">违章规则列表</a></li>
                     <li><a asp-area="" asp-controller="Illegal" asp-action="create">创建违章规则</a></li>

@@ -94,5 +94,15 @@ namespace Peccancy.WebApp.Managers
             context.User.Add(user);
             await context.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// 获取用户数据集合
+        /// </summary>
+        /// <param name="queryModel"></param>
+        /// <returns></returns>
+        public async Task<List<User>> GetUserListAsync()
+        {
+            return await context.User.ToListAsync();
+        }
     }
 }

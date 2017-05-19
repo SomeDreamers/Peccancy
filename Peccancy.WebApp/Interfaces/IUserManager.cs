@@ -37,5 +37,12 @@ namespace Peccancy.WebApp.Interfaces
         /// <param name="user"></param>
         /// <returns></returns>
         Task RegisterAsync(User user);
+
+        /// <summary>
+        /// 获取用户数据集合
+        /// </summary>
+        /// <param name="queryModel"></param>
+        /// <returns></returns>
+        Task<List<User>> GetUserListAsync();
     }
 }
