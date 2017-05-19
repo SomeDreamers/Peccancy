@@ -18,11 +18,18 @@ namespace Peccancy.WebApp.Interfaces
         Task<List<User>> QueryAsync();
 
         /// <summary>
-        /// 根据用户名获取用户
+        /// 根据身份证号获取用户
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        Task<User> GetUserByNameAsync(string name);
+        Task<User> GetUserByCardAsync(string name);
+
+        /// <summary>
+        /// 根据用户名获取管理员
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Task<Admin> GetAdminByNameAsync(string name);
 
         /// <summary>
         /// 注册用户

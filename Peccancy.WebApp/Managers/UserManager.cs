@@ -65,13 +65,23 @@ namespace Peccancy.WebApp.Managers
         }
 
         /// <summary>
-        /// 根据用户名获取用户
+        /// 根据身份证号获取用户
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<User> GetUserByNameAsync(string name)
+        public async Task<User> GetUserByCardAsync(string card)
         {
-            return (await context.User.Where(c => c.Name == name).ToListAsync()).FirstOrDefault();
+            return (await context.User.Where(c => c.Card == card).ToListAsync()).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 根据用户名获取管理员
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<Admin> GetAdminByNameAsync(string name)
+        {
+            return (await context.Admin.Where(c => c.Name == name).ToListAsync()).FirstOrDefault();
         }
 
         /// <summary>

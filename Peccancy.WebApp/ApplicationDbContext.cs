@@ -14,6 +14,11 @@ namespace Peccancy.WebApp
         /// </summary>
         public DbSet<User> User { get; set; }
 
+        /// <summary>
+        /// 管理员表
+        /// </summary>
+        public DbSet<Admin> Admin { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

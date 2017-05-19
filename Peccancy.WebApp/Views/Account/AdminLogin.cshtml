@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Layout = "_AccountLayout";
 }
 
@@ -7,14 +7,14 @@
 @using (Html.BeginForm("Authenticate", "Account"))
 {
     <div class="form-horizontal">
-        <h1><span class="glyphicon glyphicon-tree-deciduous">用户登录</span></h1>
+        <h1><span class="glyphicon glyphicon-tree-deciduous">管理员登录</span></h1>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.Hidden("Role", (int)RoleType.User)
+        @Html.Hidden("Role", (int)RoleType.System)
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, "身份证号", new { @class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Name, "用户名", new { @class = "control-label col-md-2" })
             <div class="col-md-10 form-inline">
-                @Html.TextBoxFor(model => model.Name,  new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Name, "", htmlAttributes: new { @class = "text-danger" })
             </div>
         </div>

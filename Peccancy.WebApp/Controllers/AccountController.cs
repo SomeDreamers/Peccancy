@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Peccancy.WebApp.Enums;
+using Peccancy.WebApp.Helpers;
 using Peccancy.WebApp.Interfaces;
 using Peccancy.WebApp.Models;
 using Peccancy.WebApp.Models.ORM;
@@ -28,10 +30,24 @@ namespace Peccancy.WebApp.Controllers
         }
 
         /// <summary>
-        /// 登录界面
+        /// 普通用户登录界面
         /// </summary>
         /// <returns></returns>
         public IActionResult Login()
+        {
+            var bol = HttpContext.User.Identity.IsAuthenticated;
+            if (bol)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 管理员登录界面
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult AdminLogin()
         {
             var bol = HttpContext.User.Identity.IsAuthenticated;
             if (bol)
@@ -61,17 +77,36 @@ namespace Peccancy.WebApp.Controllers
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Authenticate(User user)
+        public async Task<IActionResult> Authenticate(LoginUserModel user)
         {
             ReturnResult result = new ReturnResult();
-            User customer = await userManager.GetUserByNameAsync(user.Name);
-            if (customer == null || customer.Password != GetMD5(user.Password))
+            var userName = "";
+            long userId = 0;
+            if(user.Role == (int)RoleType.System)
             {
-                result.IsSuccess = false;
-                result.Message = "用户名或密码错误！";
-                return Json(result);
+                Admin admin = await userManager.GetAdminByNameAsync(user.Name);
+                if (admin == null || admin.Password != GetMD5(user.Password))
+                {
+                    result.IsSuccess = false;
+                    result.Message = "用户名或密码错误！";
+                    return Json(result);
+                }
+                userName = admin.Name;
+                userId = admin.Id;
             }
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, customer.Name, ClaimValueTypes.String), new Claim(ClaimTypes.Role, "", ClaimValueTypes.String), new Claim(ClaimTypes.Sid, customer.Id.ToString(), ClaimValueTypes.String) };
+            else
+            {
+                User customer = await userManager.GetUserByCardAsync(user.Name);
+                if (customer == null || customer.Password != GetMD5(user.Password))
+                {
+                    result.IsSuccess = false;
+                    result.Message = "身份证号或密码错误！";
+                    return Json(result);
+                }
+                userName = customer.TrueName;
+                userId = customer.Id;
+            }
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, userName, ClaimValueTypes.String), new Claim(ClaimTypes.Role, ((RoleType)user.Role).GetDescription(), ClaimValueTypes.String), new Claim(ClaimTypes.Sid, userId.ToString(), ClaimValueTypes.String) };
             var userIdentity = new ClaimsIdentity(claims, "Customer");
             var userPrincipal = new ClaimsPrincipal(userIdentity);
             await HttpContext.Authentication.SignInAsync("IdeaCoreUser", userPrincipal,
@@ -86,27 +121,9 @@ namespace Peccancy.WebApp.Controllers
 
         public async Task<IActionResult> Logout()
         {
+            var action = HttpContext.User.Identity.Role() == RoleType.System.GetDescription() ? "AdminLogin" : "Login";
             await HttpContext.Authentication.SignOutAsync("IdeaCoreUser");
-            return RedirectToAction("Login");
-        }
-
-        /// <summary>
-        /// 用户注册
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> Register(UserModel userModel)
-        {
-            User user = userModel.GetUser();
-            //密码加密
-            user.Password = GetMD5(user.Password);
-            //存储用户注册信息
-            await userManager.RegisterAsync(user);
-            //保存成功后自动登录
-            user.Password = userModel.Password;
-            await Authenticate(user);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(action);
         }
 
         /// <summary>
@@ -116,7 +133,7 @@ namespace Peccancy.WebApp.Controllers
         /// <returns></returns>
         public async Task<bool> VerifyName(string Name)
         {
-            User user = await userManager.GetUserByNameAsync(Name);
+            User user = await userManager.GetUserByCardAsync(Name);
             return user == null;
         }
 
@@ -135,7 +152,7 @@ namespace Peccancy.WebApp.Controllers
             for (int i = 0; i < s.Length; i++)
             {
                 // 将得到的字符串使用十六进制类型格式。格式后的字符是小写的字母，如果使用大写（X）则格式后的字符是大写字符 
-                pwd = pwd + s[i].ToString("X");
+                pwd = pwd + s[i].ToString("X").PadLeft(2, '0');
             }
             return pwd;
         }

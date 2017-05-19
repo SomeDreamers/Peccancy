@@ -17,18 +17,43 @@ namespace Peccancy.WebApp.Models.ORM
         public long Id { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 身份证号
         /// </summary>
-        [Required(ErrorMessage = "用户名不能为空")]
-        [StringLength(8, ErrorMessage = "用户名不超过8个字符")]
-        public string Name { get; set; }
+        public string Card { get; set; }
+
+        /// <summary>
+        /// 真实姓名
+        /// </summary>
+        public string TrueName { get; set; }
+
+        /// <summary>
+        /// 电话
+        /// </summary>
+        public string Tell { get; set; }
+
+        /// <summary>
+        /// 地址
+        /// </summary>
+        public string Address { get; set; }
+
+        /// <summary>
+        /// 户籍所在地
+        /// </summary>
+        public string Domicile { get; set; }
+
+        /// <summary>
+        /// 年龄
+        /// </summary>
+        public int Age { get; set; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public int Sex { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(ErrorMessage = "密码不能为空")]
-        [MinLength(6, ErrorMessage = "密码不能小于6个字符")]
-        [MaxLength(30, ErrorMessage = "密码不能超过30个字符")]
         public string Password { get; set; }
     }
 }
