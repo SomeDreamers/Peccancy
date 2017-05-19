@@ -35,6 +35,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Illegal" asp-action="IllegalList">违章规则列表</a></li>
+                    <li><a asp-area="" asp-controller="Illegal" asp-action="create">创建违章规则</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -42,7 +44,7 @@
                         <ul class="dropdown-menu">
                             @*@if (Html.ViewContext.HttpContext.User.Identity.Role() == RoleType.System.GetDescription())
                             {
-                                <li><a href="/Admin/AddAdmin">增加管理员</a></li>
+                                <li><a href="/Admin/AddAdmin">增加违章规则</a></li>
                             }*@
                             <li><a href="/Account/Logout">退出</a></li>
                         </ul>

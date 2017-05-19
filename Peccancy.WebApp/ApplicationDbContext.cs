@@ -19,6 +19,11 @@ namespace Peccancy.WebApp
         /// </summary>
         public DbSet<Admin> Admin { get; set; }
 
+        /// <summary>
+        /// 违章规则表
+        /// </summary>
+        public DbSet<Illegal> Illegal { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

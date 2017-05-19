@@ -46,7 +46,7 @@ namespace Peccancy.WebApp.Managers
         {
             //var takeUser = await context.User_users.TakeWhile(c => c.Id == 1).ToListAsync();
             var userModel = await context.User.SingleAsync(c => c.Id == 1);
-            var user = context.User.Single(b => b.Id == 1);
+            var user= context.User.Single(b => b.Id == 1);
             var users = await context.User.ToListAsync();
             //var Userss = context.User_users.Where(c => c.Name.Contains("ew".Trim())).ToList();    //contains存在问题
             var usersss = context.User.FromSql("Select * from user_users where id > 10 limit 0, 10").ToList();
