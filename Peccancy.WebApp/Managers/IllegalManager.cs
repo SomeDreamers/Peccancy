@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Peccancy.WebApp.Managers
 {
-    public class IllegalManger : IIllegalManger
+    public class IllegalManager : IIllegalManager
     {
         private readonly ApplicationDbContext context;
-        public IllegalManger(ApplicationDbContext context)
+        public IllegalManager(ApplicationDbContext context)
         {
             this.context = context;
         }
@@ -29,7 +29,7 @@ namespace Peccancy.WebApp.Managers
         /// 违章列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Illegal>> IllegalList()
+        public async Task<List<Illegal>> GetIllegalListAsync()
         {
             List<Illegal> list= await context.Illegal.ToListAsync();
             return list;

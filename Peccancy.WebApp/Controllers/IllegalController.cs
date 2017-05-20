@@ -5,13 +5,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Peccancy.WebApp.Models.ORM;
 using Peccancy.WebApp.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Peccancy.WebApp.Controllers
 {
+    [Authorize]
     public class IllegalController:Controller
     {
-        private readonly IIllegalManger illegalManger;
-        public IllegalController(IIllegalManger illegalManger)
+        private readonly IIllegalManager illegalManger;
+        public IllegalController(IIllegalManager illegalManger)
         {
             this.illegalManger = illegalManger;
         }
@@ -31,15 +33,15 @@ namespace Peccancy.WebApp.Controllers
         public async Task<IActionResult> Save(Illegal illegal)
         {
             await illegalManger.CreateAsync(illegal);
-            return RedirectToAction("IllegalList", "Illegal");
+            return RedirectToAction("List", "Illegal");
         }
         /// <summary>
         /// 违章规则列表
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> IllegalList()
+        public async Task<IActionResult> List()
         {
-            List<Illegal> illegals =await illegalManger.IllegalList();
+            List<Illegal> illegals =await illegalManger.GetIllegalListAsync();
             return View("List",illegals);
         }
     }

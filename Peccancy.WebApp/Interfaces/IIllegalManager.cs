@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Peccancy.WebApp.Interfaces
 {
-    public interface IIllegalManger
+    public interface IIllegalManager
     {
         /// <summary>
         /// 创建违章规则
@@ -18,6 +18,6 @@ namespace Peccancy.WebApp.Interfaces
         /// 违章列表
         /// </summary>
         /// <returns></returns>
-        Task<List<Illegal>> IllegalList();
+        Task<List<Illegal>> GetIllegalListAsync();
     }
 }
