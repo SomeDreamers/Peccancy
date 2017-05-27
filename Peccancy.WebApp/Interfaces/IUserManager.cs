@@ -1,4 +1,5 @@
 ﻿using Peccancy.WebApp.Models.ORM;
+using Peccancy.WebApp.Models.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,5 +45,11 @@ namespace Peccancy.WebApp.Interfaces
         /// <param name="queryModel"></param>
         /// <returns></returns>
         Task<List<User>> GetUserListAsync();
+        /// <summary>
+        /// 添加管理员
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task RegisterAsync(UserModel model);
     }
 }

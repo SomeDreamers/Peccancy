@@ -136,5 +136,27 @@ namespace Peccancy.WebApp.Controllers
             User user = await userManager.GetUserByCardAsync(Name);
             return user == null;
         }
+
+        /// <summary>
+        /// 新增管理员界面
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult AddAdmin()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 新增管理员
+        /// </summary>
+        /// <param name="userModel"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> CreateAdmin(UserModel userModel)
+        {
+            //密码加密
+            userModel.Password = EncryptionHelper.GetMD5(userModel.Password);
+            //存储管理员信息
+            await userManager.RegisterAsync(userModel);
+            return RedirectToAction("index", "home"); 
+        }
     }
 }

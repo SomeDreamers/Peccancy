@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Peccancy.WebApp.Interfaces;
 using Peccancy.WebApp.Models.ORM;
+using Peccancy.WebApp.Models.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,6 +104,19 @@ namespace Peccancy.WebApp.Managers
         public async Task<List<User>> GetUserListAsync()
         {
             return await context.User.ToListAsync();
+        }
+        /// <summary>
+        /// 添加管理员
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task RegisterAsync(UserModel model)
+        {
+            Admin admin = new Admin();
+            admin.Name = model.Name;
+            admin.Password = model.Password;
+            context.Admin.Add(admin);
+            await context.SaveChangesAsync();
         }
     }
 }
