@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Peccancy.WebApp.Helpers;
 using Peccancy.WebApp.Interfaces;
 using Peccancy.WebApp.Models.ORM;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Peccancy.WebApp.Controllers
 {
+    [Authorize]
     public class ManagerUserController : Controller
     {
         private readonly IUserManager userManager;

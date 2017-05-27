@@ -18,6 +18,6 @@ namespace Peccancy.WebApp.Interfaces
         /// 违章列表
         /// </summary>
         /// <returns></returns>
-        Task<List<Illegal>> IllegalList();
+        Task<List<Illegal>> GetIllegalListAsync();
     }
 }

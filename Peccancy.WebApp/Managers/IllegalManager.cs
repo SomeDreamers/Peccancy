@@ -29,7 +29,7 @@ namespace Peccancy.WebApp.Managers
         /// 违章列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Illegal>> IllegalList()
+        public async Task<List<Illegal>> GetIllegalListAsync()
         {
             List<Illegal> list= await context.Illegal.ToListAsync();
             return list;

@@ -1,0 +1,78 @@
+﻿
+@model Record
+@{
+    ViewData["Title"] = "创建违章记录";
+}
+
+@section styles{
+    <style type="text/css">
+        .form-inline .form-control {
+            width: 60%;
+        }
+    </style>
+}
+
+@section scripts{
+    @Html.Partial("_ValidationScriptsPartial")
+    <script type="text/javascript">
+        $(".form_datetime").datetimepicker({
+            format: 'yyyy-mm-dd hh:ii:ss',
+            language: "zh-CN",
+            todayBtn: true,
+            todayHighlight: true,
+            autoclose: true,
+            minView: 0
+        });
+    </script>
+}
+
+@using (Html.BeginForm("Save", "Record", new { name = "form", id = "form" }))
+{
+    <div class="container form-horizontal" style="height:750px;" id="jobList">
+        <div class="row">
+            <h1><span class="glyphicon glyphicon-pencil"></span>@ViewData["Title"]</h1>
+        </div>
+        <div class="form-group">
+            <label for="Title" class="control-label col-md-2">用户</label>
+            <div class="col-md-10 form-inline">
+                @Html.DropDownListFor(model => model.UserId, (List<SelectListItem>)ViewData["UserItems"], new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserId, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Title" class="control-label col-md-2">违章规则</label>
+            <div class="col-md-10 form-inline">
+                @Html.DropDownListFor(model => model.IllegalId, (List<SelectListItem>)ViewData["IllegalItems"], new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IllegalId, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Content" class="control-label col-md-2">违章时间</label>
+            <div class="col-md-10 form-inline">
+                @Html.TextBoxFor(model => model.Time, new { @class = "form-control form_datetime" })
+                @Html.ValidationMessageFor(model => model.Time, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Count" class="control-label col-md-2">违章地点</label>
+            <div class="col-md-10 form-inline">
+                @Html.TextBoxFor(model => model.Location, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Location, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="form-group">
+            <label for="StartTime" class="control-label col-md-2">备注</label>
+            <div class="col-md-10 form-inline">
+                @Html.TextBoxFor(model => model.Memo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Memo, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="保存" class="btn btn-default btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+

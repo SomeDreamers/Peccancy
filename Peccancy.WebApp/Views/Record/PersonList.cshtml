@@ -1,0 +1,34 @@
+﻿@model List<RecordModel>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>用户</th>
+            <th>违章规则</th>
+            <th>违章时间</th>
+            <th>违章地点</th>
+            <th>状态</th>
+            <th>处理人</th>
+            <th>备注</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            var item = Model[i];
+            <tr>
+                <th scope="row">@(i + 1)</th>
+                <td>@item.UserName</td>
+                <td>@item.IllegalTitle</td>
+                <td>@item.Time.ToString("yyyy-MM-dd hh-MM-ss")</td>
+                <td>@item.Location</td>
+                <td>@(item.Status == 0 ? "待处理" : "已处理")</td>
+                <td>@item.HandleMan</td>
+                <td>@item.Memo</td>
+        </tr>
+                    }
+    </tbody>
+</table>
+

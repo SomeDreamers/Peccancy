@@ -8,6 +8,7 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-datetimepicker.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
@@ -33,24 +34,41 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    @if(Html.ViewContext.HttpContext.User.Identity.Role() == RoleType.System.GetDescription()){
-                        <li><a asp-area="" asp-controller="ManagerUser" asp-action="Create">登记用户</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">首页</a></li>
+                    @if (Html.ViewContext.HttpContext.User.Identity.Role() == RoleType.System.GetDescription())
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="ManagerUser" asp-action="List">用户列表</a></li>
+                                <li><a asp-area="" asp-controller="ManagerUser" asp-action="Create">登记用户</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">违章规则管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Illegal" asp-action="List">违章规则列表</a></li>
+                                <li><a asp-area="" asp-controller="Illegal" asp-action="Create">创建违章规则</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">违章记录管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Record" asp-action="List">违章记录列表</a></li>
+                                <li><a asp-area="" asp-controller="Record" asp-action="Create">创建违章记录</a></li>
+                            </ul>
+                        </li>
                     }
-                    
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Illegal" asp-action="IllegalList">违章规则列表</a></li>
-                    <li><a asp-area="" asp-controller="Illegal" asp-action="create">创建违章规则</a></li>
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Record" asp-action="PersonList">个人违章记录</a></li>
+                        <li><a asp-area="" asp-controller="Illegal" asp-action="List">违章规则</a></li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Html.ViewContext.HttpContext.User.Identity.Name <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            @*@if (Html.ViewContext.HttpContext.User.Identity.Role() == RoleType.System.GetDescription())
-                            {
-                                <li><a href="/Admin/AddAdmin">增加违章规则</a></li>
-                            }*@
                             <li><a href="/Account/Logout">退出</a></li>
                         </ul>
                     </li>
@@ -69,6 +87,8 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.zh-CN.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">

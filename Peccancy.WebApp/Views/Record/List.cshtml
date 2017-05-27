@@ -1,0 +1,100 @@
+﻿@model List<RecordModel>
+
+@section scripts{ 
+    <script type="text/javascript">
+        var recordId = 0;
+        //弹出模态框
+        $(".handle-illegal").click(function () {
+            recordId = $(this).attr("record-id");
+            $('#myModal').modal('show');
+        });
+        //保存模态框
+        $("#modal-save").click(function () {
+            var handleMan = $("#HandleMan").val();
+            if (!handleMan) {
+                alert("处理人不能为空！")
+                return false;
+            }
+            var memo = $("#Memo").val();
+            if (!memo) {
+                alert("备注不能为空！")
+                return false;
+            }
+            $.post("/Record/Handle", { id: recordId, handleMan: handleMan, memo : memo }, function (result) {
+                if (result.isSuccess) {
+                    window.location.reload();
+                }
+            })
+        })
+    </script>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>用户</th>
+            <th>违章规则</th>
+            <th>违章时间</th>
+            <th>违章地点</th>
+            <th>状态</th>
+            <th>处理人</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            var item = Model[i];
+            <tr>
+                <th scope="row">@(i + 1)</th>
+                <td>@item.UserName</td>
+                <td>@item.IllegalTitle</td>
+                <td>@item.Time.ToString("yyyy-MM-dd hh-MM-ss")</td>
+                <td>@item.Location</td>
+                <td>@(item.Status == 0 ? "待处理" : "已处理")</td>
+                <td>@item.HandleMan</td>
+                <td>@item.Memo</td>
+                <td>@{
+                    if (item.Status == 0)
+                    {
+                        @Html.ActionLink("编辑", "Edit", routeValues: new { id = item.Id });
+                        <a href='javascripts:(0)' class="handle-illegal" record-id="@item.Id"> 处理 </a>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                    }
+                }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 17px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">处理违章记录</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">处理人:</label>
+                        <input type="text" class="form-control" id="HandleMan">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">备注:</label>
+                        <textarea class="form-control" id="Memo"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="modal-save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
